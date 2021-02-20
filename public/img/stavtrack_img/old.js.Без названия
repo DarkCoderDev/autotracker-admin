@@ -1,0 +1,123 @@
+/**
+ * ВАЖНО УДАЛИТЬ ПОСЛЕ ПОЛНОГО ПЕРЕЗДА
+ * Совмещение старого кода с новым - времнно
+ * Удалять после полного поиска по проекту/БД - понять что код больше нигде не используется
+ */
+
+
+/* глобальные переменные для модальных окон (выбор способа связи с Клиентом: звонок, мессенджер, почта)*/
+var contact_method_name;
+var contact_method_phone;
+
+
+
+
+/**
+ * Эти функции много где вызывается при клике в том числе и вн страницах
+ * поэтому пока нажатия отлавливаем и посылаем уже на новую функцию
+ */
+function clikPrice(tovar, urlH) {
+    common.showModal('price', {product: tovar});
+}
+function clikKupit(tovar) {
+    common.showModal('bay', {product: tovar});
+}
+function clikCommPred() {
+    common.showModal('commpred');
+}
+function clickOfficeOnline() {
+    common.showModal('officeonline');
+}
+function clikСonsultation(vopros, urlH) {
+    common.showModal('consultation', {question: vopros});
+}
+function clikTestDrive() {
+    common.showModal('testdrive');
+}
+function clikYaKassa() {
+    common.showModal('yakassa');
+}
+//открыть всплывающее окно с информацией по тех поддержке
+function clikSupport(option) {
+    common.showModal('support', option);
+}
+
+/**
+ * Открыть всплывающую форму для заказа установки на определенную дату из календаря
+ * @param dateText
+ */
+function orderCalendar(dateText) {
+    common.showModal('ordercalendar');
+    // $("#blockajax").load("/in/ajax/formacalendar",
+    //     function(){
+    //         $("#dateFromCalendar").val(dateText)
+    //     }
+    // );
+}
+
+
+
+//старый метод посылать данные на сервер
+//перехватываем и посылаем новым
+function formAjax(idOtvet, idForm) {
+    //передаем значения полей мадального окна в глобальные переменные
+    let name=document.getElementById("name");
+        if(name){contact_method_name=name.value;}
+    let phone=document.getElementById("phone");
+        if(phone){contact_method_phone=phone.value;}
+
+
+    //отправляем данные из первой формы
+    common.sendOrder(idOtvet, idForm);
+}
+
+
+
+function formAjaxContactMethod(idOtvet, idForm) {
+    //передаём выбранные поля способа связи с клиентом в поле "коментария" заявки
+    $("#type_client_connect").val("Способы связи с Клиентом: " + $("input[name=options]:checked").map(function () {
+        return this.value;
+    }).get().join(", ") );
+
+    //отправляем данные из второй формы
+    common.sendOrder(idOtvet, idForm);
+
+    //меняем некоторые элементы во втором окне
+    document.getElementById("right_panel").style.display="none";
+    document.getElementById("modal_form_button").style.display="none";
+    document.getElementById("modal_text").innerHTML="Спасибо! Мы учтём Ваше пожелание!";
+    document.getElementById("modal_text").style.margin="165px 0";
+}
+
+
+//отправляем на сервер перехваченные данные из заявки чата венью
+function sendDataFromVenyoo(data) {
+    //ставим этот тип чтобы на сервере отловить этот тип запроса
+    //и послать в нужное место tools
+    //data.type_order = "VENYOO";
+    data.ga_cid = getCookie('_ga');
+    jQuery.ajax({
+        url: 'https://tools.stavtrack.ru/api/get-data-from-sites-venyoo',
+        type: "POST",
+        dataType: "json",
+        data: data,
+        success: function (res) {
+            console.log(res)
+        },
+        error: function (res) {
+            console.log(res)
+        }
+    });
+}
+
+function addFileInvoice() {
+    document.getElementById("fileInvoice").click();
+}
+
+function processSelectedFiles(type,fileInput) {
+    var file = fileInput.files[0];
+    //грузим файл на сервер возвращая публичную ссылку
+    common.uploadFile(type, file);
+}
+
+

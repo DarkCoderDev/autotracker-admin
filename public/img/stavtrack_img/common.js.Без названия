@@ -1,0 +1,510 @@
+/******/ (function(modules) { // webpackBootstrap
+/******/ 	// The module cache
+/******/ 	var installedModules = {};
+/******/
+/******/ 	// The require function
+/******/ 	function __webpack_require__(moduleId) {
+/******/
+/******/ 		// Check if module is in cache
+/******/ 		if(installedModules[moduleId]) {
+/******/ 			return installedModules[moduleId].exports;
+/******/ 		}
+/******/ 		// Create a new module (and put it into the cache)
+/******/ 		var module = installedModules[moduleId] = {
+/******/ 			i: moduleId,
+/******/ 			l: false,
+/******/ 			exports: {}
+/******/ 		};
+/******/
+/******/ 		// Execute the module function
+/******/ 		modules[moduleId].call(module.exports, module, module.exports, __webpack_require__);
+/******/
+/******/ 		// Flag the module as loaded
+/******/ 		module.l = true;
+/******/
+/******/ 		// Return the exports of the module
+/******/ 		return module.exports;
+/******/ 	}
+/******/
+/******/
+/******/ 	// expose the modules object (__webpack_modules__)
+/******/ 	__webpack_require__.m = modules;
+/******/
+/******/ 	// expose the module cache
+/******/ 	__webpack_require__.c = installedModules;
+/******/
+/******/ 	// define getter function for harmony exports
+/******/ 	__webpack_require__.d = function(exports, name, getter) {
+/******/ 		if(!__webpack_require__.o(exports, name)) {
+/******/ 			Object.defineProperty(exports, name, { enumerable: true, get: getter });
+/******/ 		}
+/******/ 	};
+/******/
+/******/ 	// define __esModule on exports
+/******/ 	__webpack_require__.r = function(exports) {
+/******/ 		if(typeof Symbol !== 'undefined' && Symbol.toStringTag) {
+/******/ 			Object.defineProperty(exports, Symbol.toStringTag, { value: 'Module' });
+/******/ 		}
+/******/ 		Object.defineProperty(exports, '__esModule', { value: true });
+/******/ 	};
+/******/
+/******/ 	// create a fake namespace object
+/******/ 	// mode & 1: value is a module id, require it
+/******/ 	// mode & 2: merge all properties of value into the ns
+/******/ 	// mode & 4: return value when already ns object
+/******/ 	// mode & 8|1: behave like require
+/******/ 	__webpack_require__.t = function(value, mode) {
+/******/ 		if(mode & 1) value = __webpack_require__(value);
+/******/ 		if(mode & 8) return value;
+/******/ 		if((mode & 4) && typeof value === 'object' && value && value.__esModule) return value;
+/******/ 		var ns = Object.create(null);
+/******/ 		__webpack_require__.r(ns);
+/******/ 		Object.defineProperty(ns, 'default', { enumerable: true, value: value });
+/******/ 		if(mode & 2 && typeof value != 'string') for(var key in value) __webpack_require__.d(ns, key, function(key) { return value[key]; }.bind(null, key));
+/******/ 		return ns;
+/******/ 	};
+/******/
+/******/ 	// getDefaultExport function for compatibility with non-harmony modules
+/******/ 	__webpack_require__.n = function(module) {
+/******/ 		var getter = module && module.__esModule ?
+/******/ 			function getDefault() { return module['default']; } :
+/******/ 			function getModuleExports() { return module; };
+/******/ 		__webpack_require__.d(getter, 'a', getter);
+/******/ 		return getter;
+/******/ 	};
+/******/
+/******/ 	// Object.prototype.hasOwnProperty.call
+/******/ 	__webpack_require__.o = function(object, property) { return Object.prototype.hasOwnProperty.call(object, property); };
+/******/
+/******/ 	// __webpack_public_path__
+/******/ 	__webpack_require__.p = "/";
+/******/
+/******/
+/******/ 	// Load entry module and return exports
+/******/ 	return __webpack_require__(__webpack_require__.s = 1);
+/******/ })
+/************************************************************************/
+/******/ ({
+
+/***/ "./resources/assets/js/common.js":
+/*!***************************************!*\
+  !*** ./resources/assets/js/common.js ***!
+  \***************************************/
+/*! no exports provided */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _modules_show_modal__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./modules/show-modal */ "./resources/assets/js/modules/show-modal.js");
+/* harmony import */ var _modules_show_modal__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_modules_show_modal__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _modules_hide_modal__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./modules/hide-modal */ "./resources/assets/js/modules/hide-modal.js");
+/* harmony import */ var _modules_hide_modal__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(_modules_hide_modal__WEBPACK_IMPORTED_MODULE_1__);
+/* harmony import */ var _modules_send_order__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./modules/send-order */ "./resources/assets/js/modules/send-order.js");
+/* harmony import */ var _modules_send_order__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(_modules_send_order__WEBPACK_IMPORTED_MODULE_2__);
+/* harmony import */ var _modules_upload_file__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./modules/upload-file */ "./resources/assets/js/modules/upload-file.js");
+/* harmony import */ var _modules_upload_file__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(_modules_upload_file__WEBPACK_IMPORTED_MODULE_3__);
+/* harmony import */ var _modules_jq_event_init__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./modules/jq-event-init */ "./resources/assets/js/modules/jq-event-init.js");
+/* harmony import */ var _modules_get_directions__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./modules/get-directions */ "./resources/assets/js/modules/get-directions.js");
+/* harmony import */ var _modules_show_all_managers__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./modules/show-all-managers */ "./resources/assets/js/modules/show-all-managers.js");
+/**
+ *  COMMON.JS
+ */
+
+
+
+
+ //import FormInit from './modules/form-init';
+
+ //#import '../sass/common.scss';
+//загрузка списка всех менеджеров для страниц в ФУТЕРЕ сайта AJAX
+
+
+Object(_modules_show_all_managers__WEBPACK_IMPORTED_MODULE_6__["default"])(); //раскрывашки переключалки и прочее
+
+Object(_modules_jq_event_init__WEBPACK_IMPORTED_MODULE_4__["default"])(); //обходим все формы и нумеруем их
+//для того чтобы затем идентифицировать их в аналитике
+//так мы фиксируем наведенени а в аналитику передаем инфу со том что форму увидели
+//FormInit();
+//Вытаскивая направления для GA
+
+Object(_modules_get_directions__WEBPACK_IMPORTED_MODULE_5__["default"])(); // import Echo from "laravel-echo"
+// import Pusher from "pusher-js"
+//
+// window.Echo = new Echo({
+//     broadcaster: 'pusher',
+//     cluster: 'eu',
+//     key: '5d11253db40196d61d23'
+// });
+
+window.common = {};
+window.common.showModal = _modules_show_modal__WEBPACK_IMPORTED_MODULE_0___default.a;
+window.common.hideModal = _modules_hide_modal__WEBPACK_IMPORTED_MODULE_1___default.a;
+window.common.sendOrder = _modules_send_order__WEBPACK_IMPORTED_MODULE_2___default.a;
+window.common.uploadFile = _modules_upload_file__WEBPACK_IMPORTED_MODULE_3___default.a; // var head = document.getElementsByTagName("head")[0];
+// var script = document.createElement("script");
+// script.src = "https://web.redhelper.ru/service/main.js?c=onlinestavtrack";
+// script.charset="utf-8";
+// script.async=true;
+// script.id="rhlpscrtg";
+// head.appendChild(script);
+
+/***/ }),
+
+/***/ "./resources/assets/js/modules/get-directions.js":
+/*!*******************************************************!*\
+  !*** ./resources/assets/js/modules/get-directions.js ***!
+  \*******************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony default export */ __webpack_exports__["default"] = (function () {
+  window.stavtrack_directions = [];
+  $.get("/api/ga/directions", function (data) {
+    window.stavtrack_directions = data;
+  });
+});
+;
+
+/***/ }),
+
+/***/ "./resources/assets/js/modules/hide-modal.js":
+/*!***************************************************!*\
+  !*** ./resources/assets/js/modules/hide-modal.js ***!
+  \***************************************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+/**
+ *  удаление содержимого модального окна
+ */
+module.exports = function () {
+  $('#blockajax').empty();
+};
+
+/***/ }),
+
+/***/ "./resources/assets/js/modules/jq-event-init.js":
+/*!******************************************************!*\
+  !*** ./resources/assets/js/modules/jq-event-init.js ***!
+  \******************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony default export */ __webpack_exports__["default"] = (function () {
+  // выдвижение панели с списком городов
+  $(".locality").click(function () {
+    $(".panelCity").slideToggle("slow");
+    $(this).toggleClass("active");
+    return false;
+  }); // свертывание панели по кнопочке с списком городов
+
+  $(".closepanelCity").click(function () {
+    $(".panelCity").slideToggle("slow");
+    $(this).toggleClass("active");
+    return false;
+  }); // инициализация скрола с отзывами на главной странице
+  //TODO (Второстепенно) переделать так как работает только с jquery.tools а он использует старый jQuery 1.7.1 (~2008г)
+
+  $(".scrollable").scrollable({
+    circular: true
+  }); // активация ротатора озывов в левой колонке
+
+  $(".scrollable2").scrollable({
+    mousewheel: true,
+    circular: true
+  }).autoscroll({
+    autopause: true,
+    interval: 10000
+  }); // инициализация ротатора  акций - длинные банеры на всю ширину сайта
+
+  $(".scrollable3").scrollable({
+    mousewheel: false,
+    circular: true
+  }).autoscroll({
+    autopause: true,
+    interval: 8000
+  }); // слайдер коробок готовых решений
+
+  $(".scrollable4").scrollable({
+    circular: true
+  }); // скрыть \ раскрыть текстовый блок scrollHeight - автовычисление будущей высоты раскрытия
+  // в data-height="160" у кнопки лежит стартовый размер
+
+  $("#knopkaTextShowHide").toggle(function () {
+    // console.log('ok');
+    var finishHeight = $('#boxTextShowHide')[0].scrollHeight;
+    $('#boxTextShowHide').animate({
+      'height': finishHeight + 40
+    }, 1000);
+    $('#knopkaTextShowHide').removeClass("knopkaTextShowHideVniz").addClass("knopkaTextShowHideVverh");
+  }, function (e) {
+    // console.log(e);
+    var startHeight = e.target.dataset.height;
+    $('#boxTextShowHide').animate({
+      'height': startHeight
+    }, 1000);
+    $('#knopkaTextShowHide').removeClass("knopkaTextShowHideVverh").addClass("knopkaTextShowHideVniz");
+  });
+  $(document).on('click', '.search-icon', function () {
+    $(this).removeClass('search-icon').addClass('search-icon-close');
+    $('#navig-menu').css('display', 'none');
+    $('.search-field').css({
+      'display': 'block',
+      'width': '85%'
+    });
+    $('.search-icon-hover').css({
+      'display': 'block',
+      'marginRight': '15px'
+    });
+    $('#search').css('width', 'inherit').focus();
+  });
+  $(document).on('click', '.search-icon-close', function () {
+    $(this).removeClass('search-icon-close').addClass('search-icon');
+    $('#navig-menu').css('display', 'block');
+    $('.search-field').css('display', 'none');
+    $('.search-icon-hover').css('display', 'none');
+    $('#output_search').css('display', 'none');
+    $('#search').val(null);
+  });
+  var prevArrow = '<button style="height: 40px; width: 40px; padding: 0; border: none; margin-top: 70px; margin-right: 20px;">' + '<img src="http://www.stavtrack.test/new-design/ico/prevArrow.png" alt="">' + '</button>';
+  var nextArrow = '<button style="height: 40px; width: 40px; padding: 0; border: none; margin-top: 70px; margin-left: 20px;">' + '<img src="http://www.stavtrack.test/new-design/ico/nextArrow.png" alt="">' + '</button>';
+  $('.managers-container').slick({
+    speed: 500,
+    autoplay: true,
+    autoplaySpeed: 2000,
+    slidesToShow: 5,
+    slidesToScroll: 1,
+    prevArrow: prevArrow,
+    nextArrow: nextArrow
+  });
+});
+;
+
+/***/ }),
+
+/***/ "./resources/assets/js/modules/send-order.js":
+/*!***************************************************!*\
+  !*** ./resources/assets/js/modules/send-order.js ***!
+  \***************************************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+/**
+ *  Отправка данных из любой формы заявки на сайте
+ */
+module.exports = function (idOtvet, idForm) {
+  //запускаем прелоадер (спинер)
+  document.getElementById(idOtvet).innerHTML = '<span><img src="/img/spiner.svg" alt=""></span>';
+  var data = jQuery("#" + idForm).serialize(); //узнаем текущую страницу и добавляем в стрку параметров
+
+  data = data + '&' + 'url=' + window.location.pathname; //let searchParams = new URLSearchParams(data);
+  //console.log(getObj(data));
+  //разбираем строку и создаем массив
+
+  var dataObj = getObj(data); //поучаем объект с данными текущего направления, минусуем 1 чтобы попасть на тот элемент в массиве
+
+  var direction = stavtrack_directions[dataObj.direction_id - 1];
+  fbq('track', 'Lead');
+  jQuery.ajax({
+    url: '/api/orders/send',
+    type: "POST",
+    dataType: "html",
+    data: data,
+    success: function success(res) {
+      //выводим разные "успешные" сообщения о созранении заявки в зависимости от типа ордера
+      if (dataObj.type_order == 'PRICE') {
+        document.getElementById(idOtvet).innerHTML = '<span class="green">Спасибо! Пожалуйста, проверьте Ваш E-mail.</span>';
+      } else {
+        document.getElementById(idOtvet).innerHTML = '<span class="green">Спасибо! В ближайшее время мы свяжемся с Вами!</span>';
+      }
+
+      $("#" + idForm).find('input:text').val(''); //очищаем все поля у форм
+      //фиксируем в аналитике  отправку формы
+
+      dataLayer.push({
+        event: "form_submit",
+        category: "form",
+        action: "send_form",
+        label: direction.label,
+        value: direction.value_goal,
+        cd1: dataObj.type_order,
+        cd2: idForm + '_stavtrack_ru'
+      }); //посылаем событие в счетчик яндекс о заказе
+
+      myReachGoalMetrika('ORDER', {}); //вызываем вторую форму (тип связи с клиентом: звонок, мессенджер, почта) для ордеров
+
+      var element = document.getElementById('type_order');
+
+      if (element.value == "DEMO_ACCESS") {
+        common.showModal('contact-method');
+      }
+
+      if (element.value == "PRICE" || element.value == "COMMPRED") {
+        common.showModal('contact-method');
+      }
+
+      if (element.value == "OPROS" || element.value == "BAY") {
+        common.showModal('contact-method-any-form');
+      }
+    },
+    error: function error(res) {
+      //Если ошибка
+      var msgs = JSON.parse(res.responseText);
+
+      for (var key in msgs) {
+        //console.log(res);
+        document.getElementById(idOtvet).innerHTML = '<span style="color: red">' + msgs[key][0] + '</span>';
+        break;
+      } //фиксируем в аналитике попытку отправки формы (gmt)
+
+
+      dataLayer.push({
+        event: "form_submit",
+        category: "form",
+        action: "attempt_form",
+        label: direction.label,
+        value: 0,
+        cd1: dataObj.type_order,
+        cd2: idForm
+      });
+    }
+  });
+};
+
+function getObj(data) {
+  data = decodeURI(data);
+  var tmp1 = data.split("&");
+  var endMassive = {};
+
+  for (var t in tmp1) {
+    var tmp2 = tmp1[t].split("=");
+    endMassive[tmp2[0]] = tmp2[1] || "";
+  }
+
+  return endMassive;
+}
+
+/***/ }),
+
+/***/ "./resources/assets/js/modules/show-all-managers.js":
+/*!**********************************************************!*\
+  !*** ./resources/assets/js/modules/show-all-managers.js ***!
+  \**********************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony default export */ __webpack_exports__["default"] = (function () {
+  //отслеживаем событие прокрутки страницы
+  $(document).ready(function () {
+    //отображаем всех менеджеров в ФУТЕРЕ (layout.inc.managers), если блок виден на странице
+    //        $(window).scroll(function () {
+    //            Складываем значение прокрутки страницы и высоту окна, этим мы получаем положение страницы относительно нижней границы окна,
+    //             потом проверяем, если это значение больше, чем отступ нужного элемента от верха страницы, то значит элемент уже появился внизу окна, соответственно виден
+    //            if ($(window).scrollTop() + $(window).height() >= $("#layout-inc-managers").offset().top) {
+    //                выполняем действия если элемент виден
+    //                $('#message').html('виден');
+    $('#layout-inc-managers').load('/api/nashi-sotrudniki/all-managers.html'); //,
+    //                                {},
+    //                                function(res){
+    //                                    console.log(res);
+    //
+    //                                });
+    //            }
+  });
+});
+;
+
+/***/ }),
+
+/***/ "./resources/assets/js/modules/show-modal.js":
+/*!***************************************************!*\
+  !*** ./resources/assets/js/modules/show-modal.js ***!
+  \***************************************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+/**
+ *  запрос шаблона модального окна
+ *  type - название подшаблона который будем загружать в модальное оккно
+ *  option (объект) - дополнительные поля характеризующие ту кнопку по которой было нажатие
+ *      например можно передавать название товара (product) или direction_id
+ */
+module.exports = function (type) {
+  var option = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {};
+  //проверяем есть  ли direction_id у нажатой кнопки
+  //если нет то достаем общий для всей страницы
+  //получаем id тематики стр из атрибута data-direction
+  var direction_id = option.direction_id ? option.direction_id : document.getElementById('blockajax').dataset.direction;
+  $("#blockajax").load("/api/old/modals/" + type, {
+    direction_id: direction_id,
+    option: option
+  }, function () {//console.log('форма загружена!!!')
+  });
+};
+
+/***/ }),
+
+/***/ "./resources/assets/js/modules/upload-file.js":
+/*!****************************************************!*\
+  !*** ./resources/assets/js/modules/upload-file.js ***!
+  \****************************************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+/**
+ *  Загрузка файла на сервак, возвращаем прямую ссылку до файла для скачки его с сайта
+ */
+module.exports = function (type, file) {
+  var myFormData = new FormData();
+  myFormData.append("file", file);
+  jQuery.ajax({
+    url: '/api/upload-file',
+    type: "POST",
+    processData: false,
+    contentType: false,
+    //dataType: "html",
+    data: myFormData,
+    success: function success(res) {
+      // в res лижит публичная ссылка на закаченный файл
+      //собираем ссылку
+      //полученную ссылку кладем в input
+      if (type === 'INVOICE') {
+        //document.getElementById("linkFileInvoice").value = 'Файл с реквизитами ' + res;
+        document.getElementById("linkFileInvoice").value = "<a href='" + res + "' target='_blank'>Файл с реквизитами</a>";
+        document.getElementById("nameFileInvoice").innerHTML = "<a href='" + res + "' target='_blank'>Ваш файл с реквизитами</a>";
+        console.log(res);
+      }
+
+      if (type === 'REZUME') {
+        //document.getElementById("linkFileInvoice").value = 'Файл с реквизитами ' + res;
+        document.getElementById("linkFileRezume").value = "<a href='" + res + "' target='_blank'>Файл с резюме</a>";
+        document.getElementById("nameFileRezume").innerHTML = "<a href='" + res + "' target='_blank'>Ваш файл с резюме</a>";
+        console.log(res);
+      }
+    },
+    error: function error(res) {//Если ошибка
+    }
+  }); //return 'test/link/' + file.name;
+};
+
+/***/ }),
+
+/***/ 1:
+/*!*********************************************!*\
+  !*** multi ./resources/assets/js/common.js ***!
+  \*********************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+module.exports = __webpack_require__(/*! C:\Users\Admin\Downloads\open_server_5_3_7_basic_full\OpenServer\domains\stavtrack.test\resources\assets\js\common.js */"./resources/assets/js/common.js");
+
+
+/***/ })
+
+/******/ });

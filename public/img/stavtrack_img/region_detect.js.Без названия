@@ -1,0 +1,248 @@
+//
+
+//доменое имя сайта (на боевом и в разработке разные)
+var app_domain = document.head.querySelector("[name~=app_domain][content]").content;
+//устанавливаю куки по умолчанию
+var not_defined = "region_not_defined";
+
+//адрес удаленной библиотеки для получения данных
+var configYmapUrl = "https://api-maps.yandex.ru/2.0/?apikey=ac2231bc-0532-460c-84d4-785f12f3aa60&load=package.standard&lang=ru-RU";
+
+var is_show_region = getCookie("is_show_region");
+var is_city_set = getCookie("user_city");
+var is_region_set = getCookie("user_region");
+var is_region_code_set = getCookie("user_region_code");
+
+if ((is_city_set === null) || (is_region_set === null) || (is_region_code_set === null)) {
+
+    setCookie("user_city", encodeURI(not_defined), "Mon, 01-Jan-2999 00:00:00 GMT", "/", app_domain);
+    setCookie("user_region", encodeURI(not_defined), "Mon, 01-Jan-2999 00:00:00 GMT", "/", app_domain);
+    setCookie("user_region_code", 0, "Mon, 01-Jan-2999 00:00:00 GMT", "/", app_domain);
+}
+// console.log(configYmapUrl);
+//определяю расположение этот код запускается только один раз
+if (is_show_region === null) {
+    //запускаем прелоадер для названия города
+    document.getElementById('preload-city').innerHTML = '<span><img src="/img/spiner.svg" alt=""></span>';
+    setCookie("is_show_region", "1", "Mon, 01-Jan-2999 00:00:00 GMT", "/", app_domain);
+
+    //Ссылка на страницу на которой объясняется, что компания не работает в регионе пользователя
+    var region_not_found_url = "https://www.stavtrack.ru/";
+
+    //Точную геолокацию по городу использую только в том случае, если несколько городов из одного региона
+    var cityList = [];
+    cityList['Казань'] = 'https://kazan.stavtrack.ru';
+    cityList['Набережные Челны'] = 'https://chelny.stavtrack.ru';
+    cityList['Краснодар'] = 'https://krasnodar.stavtrack.ru';
+    cityList['Сочи'] = 'https://sochi.stavtrack.ru';
+    cityList['Магнитогорск'] = 'https://magnitogorsk.stavtrack.ru';
+    cityList['Челябинск'] = 'https://chelyabinsk.stavtrack.ru';
+    cityList['Ставрополь'] = 'https://www.' + app_domain;
+    cityList['Пятигорск'] = 'https://pyatigorsk.' + app_domain;
+
+    //Список локаций по региону
+    //http://www.btb.su/about/articles/yandex-region/  - тут названия регионов
+    var regionList = [];
+    regionList['Архангельская область'] = 'https://arhangelsk.stavtrack.ru/';
+    regionList['Астраханская область'] = 'https://astrahan.stavtrack.ru/';
+    regionList['Алтайский край'] = 'https://barnaul.stavtrack.ru/';
+
+    regionList['Белгородская область'] = 'https://belgorod.stavtrack.ru';
+    regionList['Брянская область'] = 'https://bryansk.stavtrack.ru';
+
+    regionList['Волгоградская область'] = 'https://volgograd.stavtrack.ru';
+    regionList['Вологодская область'] = 'https://vologda.stavtrack.ru';
+    regionList['Владимирская область'] = 'https://vladimir.stavtrack.ru';
+    regionList['Воронежская область'] = 'https://voronezh.stavtrack.ru';
+
+    regionList['Забайкальский край'] = 'https://chita.stavtrack.ru';
+
+    regionList['Ивановская область'] = 'https://ivanovo.stavtrack.ru';
+    regionList['Иркутская область'] = 'https://irkutsk.stavtrack.ru';
+
+    regionList['Кабардино-Балкарская республика'] = 'https://nalchik.stavtrack.ru';
+    regionList['Калужская область'] = 'https://kaluga.stavtrack.ru';
+    regionList['Карачаево-Черкесская республика'] = 'https://cherkessk.stavtrack.ru';
+    regionList['Кемеровская область'] = 'https://kemerovo.stavtrack.ru';
+    regionList['Кировская область'] = 'https://kirov.stavtrack.ru';
+    //regionList['Краснодарский край'] = 'https://krasnodar.stavtrack.ru';
+    regionList['Красноярский край'] = 'https://krasnoyarsk.stavtrack.ru';
+
+    regionList['Ленинградская область и Санкт-Петербург'] = 'https://spb.stavtrack.ru';
+    regionList['Липецкая область'] = 'https://lipetsk.stavtrack.ru';
+
+    regionList['Москва и Московская область'] = 'https://moscow.stavtrack.ru';
+
+    regionList['Нижегородская область'] = 'https://nn.stavtrack.ru';
+    regionList['Новосибирская область'] = 'https://novosibirsk.stavtrack.ru';
+
+    regionList['Оренбургская область'] = 'https://orenburg.stavtrack.ru';
+    regionList['Омская область'] = 'https://omsk.stavtrack.ru';
+    regionList['Орловская область'] = 'https://orel.stavtrack.ru';
+
+    regionList['Пермский край'] = 'https://perm.stavtrack.ru';
+    regionList['Приморский край'] = 'https://vladivostok.stavtrack.ru';
+
+    regionList['Республика Адыгея'] = 'https://maykop.stavtrack.ru';
+    regionList['Республика Башкортостан'] = 'https://ufa.stavtrack.ru';
+    regionList['Республика Бурятия'] = 'https://ulan-ude.stavtrack.ru';
+    regionList['Республика Дагестан'] = 'https://mahachkala.stavtrack.ru';
+    regionList['Республика Калмыкия'] = 'https://elista.stavtrack.ru';
+    regionList['Республика Крым'] = 'https://simferopol.stavtrack.ru';
+    regionList['Республика Татарстан'] = 'https://chelny.stavtrack.ru';
+    regionList['Республика Саха (Якутия)'] = 'https://yakutsk.stavtrack.ru';
+    regionList['Республика Северная Осетия'] = 'https://vladikavkaz.stavtrack.ru';
+    //regionList['Республика Татарстан'] = 'https://kazan.stavtrack.ru';
+    regionList['Республика Удмуртия'] = 'https://izhevsk.stavtrack.ru';
+    regionList['Рязанская область'] = 'https://ryazan.stavtrack.ru';
+    regionList['Ростовская область'] = 'https://rostov.stavtrack.ru';
+
+    regionList['Саратовская область'] = 'https://saratov.stavtrack.ru';
+    regionList['Самарская область'] = 'https://samara.stavtrack.ru';
+    regionList['Свердловская область'] = 'https://ekaterinburg.stavtrack.ru';
+    // regionList['Ставропольский край'] = 'http://www.' + app_domain;
+    regionList['Смоленская область'] = 'https://smolensk.stavtrack.ru';
+
+    regionList['Тамбовская область'] = 'https://tambov.stavtrack.ru';
+    regionList['Томская область'] = 'https://tomsk.stavtrack.ru';
+    regionList['Тверская область'] = 'https://tver.stavtrack.ru';
+    regionList['Тюменская область'] = 'https://tyumen.stavtrack.ru';
+    regionList['Тульская область'] = 'https://tula.stavtrack.ru';
+
+    regionList['Ульяновская область'] = 'https://ulyanovsk.stavtrack.ru';
+
+    regionList['Ханты-Мансийский автономный округ'] = 'https://surgut.stavtrack.ru';
+    regionList['Хабаровский край'] = 'https://habarovsk.stavtrack.ru';
+
+    regionList['Чувашская республика'] = 'https://cheboksary.stavtrack.ru'; //?????????
+    regionList['Чеченская республика'] = 'https://grozny.stavtrack.ru';
+    // regionList['Челябинская область'] = 'https://magnitogorsk.stavtrack.ru';
+
+    regionList['Ярославская область'] = 'https://yaroslavl.stavtrack.ru';
+    regionList['Ямало-Ненецкий автономный округ'] = 'https://noyabrsk.stavtrack.ru';
+
+
+    document.getElementById('preload-city').innerHTML = decodeURI(is_city_set);
+    //показываю блок
+    $("#detected_region_name").html(decodeURI(is_region_set).replace("+"," "));
+    $("#detected_region_block").show();
+
+    $('#yes_region').attr('onclick', '').unbind('click');
+
+    $("#yes_region").click(function () {
+        close_region_block();
+    });
+
+/*
+    loadScript(configYmapUrl,
+        function () {
+            //Ждем загрузки информации и месторасположении
+            ymaps.ready(function () {
+                console.log(ymaps);
+                console.log(ymaps.geolocation);
+                document.getElementById('preload-city').innerHTML = ymaps.geolocation.city;
+                //показываю блок
+                $("#detected_region_name").html(ymaps.geolocation.region);
+                $("#detected_region_block").show();
+                //устанавливаю нужную ссылку
+
+                //эта подписка сработает только если
+                //апи яндекс не определил и регион и город либо тот что определен
+                //не присутсвует в массивах regionList или cityList
+                $("#yes_region").click(function () {
+                    common.showModal('noregion');
+                    close_region_block();
+                });
+                //эта сработает если автоопределнный город присутсвует в массиве cityList
+                if (cityList[ymaps.geolocation.city] != undefined) {
+                    $('#yes_region').attr('onclick', '').unbind('click');
+                    var new_url = cityList[ymaps.geolocation.city] + window.location.pathname;
+                    if (new_url == window.location.href) {
+                        $("#yes_region").click(function () {
+                            close_region_block();
+                        });
+                    }
+                    else
+                        $("#yes_region").click(function () {
+                            window.location.replace(new_url);
+                        });
+
+                }
+                //эта сработает если автоопределнный регион присутсвует в массиве regionList
+                if (regionList[ymaps.geolocation.region] != undefined) {
+                    $('#yes_region').attr('onclick', '').unbind('click');
+                    var new_url = regionList[ymaps.geolocation.region] + window.location.pathname;
+                    if (new_url == window.location.href) {
+                        $("#yes_region").click(function () {
+                            close_region_block();
+                        });
+                    }
+                    else
+                        $("#yes_region").click(function () {
+                            window.location.replace(new_url);
+                        });
+                }
+
+
+            })
+        });
+*/
+    //функция выбора другого региона
+    function choose_other_region() {
+        $("#detected_region_block").hide();
+        $(".panelCity").show();
+    }
+
+    //функция закрытия блока определения региона
+    function close_region_block() {
+        $("#detected_region_block").hide();
+    }
+
+}
+
+//Загружаю удаленный JS файл
+function loadScript(url, callback) {
+    var head = document.getElementsByTagName('head')[0];
+    var script = document.createElement('script');
+    script.type = 'text/javascript';
+    script.src = url;
+
+
+    // Привязываю callback функцию
+    // Несколько событий для кроссбраузерности
+    script.onreadystatechange = callback;
+    script.onload = callback;
+    // Подключаю
+    head.appendChild(script);
+}
+
+function setCookie(name, value, expires, path, domain, secure) {
+    document.cookie = name + "=" + escape(value) +
+        ((expires) ? "; expires=" + expires : "") +
+        ((path) ? "; path=" + path : "") +
+        ((domain) ? "; domain=" + domain : "") +
+        ((secure) ? "; secure" : "");
+}
+
+function getCookie(name) {
+    var cookie = " " + document.cookie;
+    var search = " " + name + "=";
+    var setStr = null;
+    var offset = 0;
+    var end = 0;
+    if (cookie.length > 0) {
+        offset = cookie.indexOf(search);
+        if (offset != -1) {
+            offset += search.length;
+            end = cookie.indexOf(";", offset)
+            if (end == -1) {
+                end = cookie.length;
+            }
+            setStr = unescape(cookie.substring(offset, end));
+        }
+    }
+    return (setStr);
+}
+
+
+

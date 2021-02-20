@@ -1,0 +1,410 @@
+/******/ (function(modules) { // webpackBootstrap
+/******/ 	// The module cache
+/******/ 	var installedModules = {};
+/******/
+/******/ 	// The require function
+/******/ 	function __webpack_require__(moduleId) {
+/******/
+/******/ 		// Check if module is in cache
+/******/ 		if(installedModules[moduleId]) {
+/******/ 			return installedModules[moduleId].exports;
+/******/ 		}
+/******/ 		// Create a new module (and put it into the cache)
+/******/ 		var module = installedModules[moduleId] = {
+/******/ 			i: moduleId,
+/******/ 			l: false,
+/******/ 			exports: {}
+/******/ 		};
+/******/
+/******/ 		// Execute the module function
+/******/ 		modules[moduleId].call(module.exports, module, module.exports, __webpack_require__);
+/******/
+/******/ 		// Flag the module as loaded
+/******/ 		module.l = true;
+/******/
+/******/ 		// Return the exports of the module
+/******/ 		return module.exports;
+/******/ 	}
+/******/
+/******/
+/******/ 	// expose the modules object (__webpack_modules__)
+/******/ 	__webpack_require__.m = modules;
+/******/
+/******/ 	// expose the module cache
+/******/ 	__webpack_require__.c = installedModules;
+/******/
+/******/ 	// define getter function for harmony exports
+/******/ 	__webpack_require__.d = function(exports, name, getter) {
+/******/ 		if(!__webpack_require__.o(exports, name)) {
+/******/ 			Object.defineProperty(exports, name, { enumerable: true, get: getter });
+/******/ 		}
+/******/ 	};
+/******/
+/******/ 	// define __esModule on exports
+/******/ 	__webpack_require__.r = function(exports) {
+/******/ 		if(typeof Symbol !== 'undefined' && Symbol.toStringTag) {
+/******/ 			Object.defineProperty(exports, Symbol.toStringTag, { value: 'Module' });
+/******/ 		}
+/******/ 		Object.defineProperty(exports, '__esModule', { value: true });
+/******/ 	};
+/******/
+/******/ 	// create a fake namespace object
+/******/ 	// mode & 1: value is a module id, require it
+/******/ 	// mode & 2: merge all properties of value into the ns
+/******/ 	// mode & 4: return value when already ns object
+/******/ 	// mode & 8|1: behave like require
+/******/ 	__webpack_require__.t = function(value, mode) {
+/******/ 		if(mode & 1) value = __webpack_require__(value);
+/******/ 		if(mode & 8) return value;
+/******/ 		if((mode & 4) && typeof value === 'object' && value && value.__esModule) return value;
+/******/ 		var ns = Object.create(null);
+/******/ 		__webpack_require__.r(ns);
+/******/ 		Object.defineProperty(ns, 'default', { enumerable: true, value: value });
+/******/ 		if(mode & 2 && typeof value != 'string') for(var key in value) __webpack_require__.d(ns, key, function(key) { return value[key]; }.bind(null, key));
+/******/ 		return ns;
+/******/ 	};
+/******/
+/******/ 	// getDefaultExport function for compatibility with non-harmony modules
+/******/ 	__webpack_require__.n = function(module) {
+/******/ 		var getter = module && module.__esModule ?
+/******/ 			function getDefault() { return module['default']; } :
+/******/ 			function getModuleExports() { return module; };
+/******/ 		__webpack_require__.d(getter, 'a', getter);
+/******/ 		return getter;
+/******/ 	};
+/******/
+/******/ 	// Object.prototype.hasOwnProperty.call
+/******/ 	__webpack_require__.o = function(object, property) { return Object.prototype.hasOwnProperty.call(object, property); };
+/******/
+/******/ 	// __webpack_public_path__
+/******/ 	__webpack_require__.p = "/";
+/******/
+/******/
+/******/ 	// Load entry module and return exports
+/******/ 	return __webpack_require__(__webpack_require__.s = 2);
+/******/ })
+/************************************************************************/
+/******/ ({
+
+/***/ "./resources/assets/js/modules/calculator.js":
+/*!***************************************************!*\
+  !*** ./resources/assets/js/modules/calculator.js ***!
+  \***************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/**
+ * Калькулятор эфективности
+ * Считаем экономию топлива в зависимости от техники, пробега, стоимости литра и количеста ед ТС
+ * Он находится на главной и в левом сайдбаре
+ */
+/* harmony default export */ __webpack_exports__["default"] = (function () {
+  function roundPlus(x, n) {
+    if (isNaN(x) || isNaN(n)) return false;
+    var m = Math.pow(10, n);
+    return Math.round(x * m) / m;
+  }
+
+  $(document).ready(function () {
+    $("#mainch").change(function () {
+      var x = $("#mainch :selected").val();
+      var tip = $("#mainch :selected").attr('tip');
+      $(".div-select").hide();
+      $("#" + x).show();
+      $(".div-a").hide();
+      $(".div-s").hide();
+      $(".div-" + tip).show();
+    });
+    $("#ch6").change(function () {
+      var tip = $("#ch6 :selected").attr('tip');
+      $(".div-a").hide();
+      $(".div-s").hide();
+      $(".div-" + tip).show();
+    });
+    $("#ch5").change(function () {
+      var tip = $("#ch5 :selected").attr('tip');
+      $(".div-a").hide();
+      $(".div-s").hide();
+      $(".div-" + tip).show();
+    }); // animate - плавное свертывание панели калькулятора
+
+    $("#hidePanelCalkMain").click(function () {
+      $('.sladeCalc').animate({
+        'width': '0'
+      }, 500);
+      $("div#overlay").remove();
+    });
+    $(".submit1").click(function () {
+      var obj = jQuery('select:visible[id^=ch] option:selected');
+      var kolvo = jQuery('#kolvo').val();
+      var rasx = jQuery(obj).attr('N');
+      var probeg = jQuery('#probeg').val();
+      var stoim = jQuery('#edtoplivo').val();
+      var p, cost, narabot, S;
+
+      if (probeg > 0 && stoim > 0 && kolvo > 0 && rasx > 0) {
+        p = jQuery(obj).attr('p');
+        cost = jQuery(obj).attr('cost');
+        rasx = jQuery(obj).attr('N');
+        stoim = jQuery('#edtoplivo').val();
+        S = kolvo * probeg * stoim * (rasx / 100);
+        E = S * p;
+        Egod = E * 12;
+
+        if (E) {
+          O = cost * kolvo / E;
+        } else {
+          O = 0;
+        }
+      } else if (jQuery('#motoch').val() > 0 && jQuery('#edtoplivo').val() > 0 && jQuery('#kolvo').val() > 0 && rasx > 0) {
+        obj = jQuery('select:visible[id^=ch] option:selected');
+        p = jQuery(obj).attr('p');
+        cost = jQuery(obj).attr('cost');
+        rasx = jQuery(obj).attr('N');
+        narabot = jQuery('#motoch').val();
+        stoim = jQuery('#edtoplivo').val();
+        S = kolvo * narabot * stoim * rasx;
+        E = S * p;
+        Egod = E * 12;
+
+        if (E) {
+          O = cost * kolvo / E;
+        } else {
+          O = 0;
+        }
+      } else {
+        alert('Выберите Вид и Категорию техники!');
+        return false;
+      }
+
+      var E = roundPlus(E, 2) + ' ';
+      E = E.replace(/(\d)(?=(\d\d\d)+([^\d]|$))/g, '$1 ');
+      var Egod = roundPlus(Egod, 2) + ' ';
+      Egod = Egod.replace(/(\d)(?=(\d\d\d)+([^\d]|$))/g, '$1 ');
+      var O = roundPlus(O, 1) + ' ';
+      O = O.replace(/(\d)(?=(\d\d\d)+([^\d]|$))/g, '$1 '); //затемнение фона
+
+      var docHeight = $(document).height();
+      $("body").append("<div id='overlay'></div>");
+      $("#overlay").height(docHeight).css({
+        'opacity': 0.5,
+        'position': 'absolute',
+        'top': 0,
+        'left': 0,
+        'background-color': 'black',
+        'width': '100%',
+        'z-index': 5000
+      }); //выезжает слайд с результатами и формой
+
+      $('.sladeCalc').animate({
+        'width': '643'
+      }, 500);
+      jQuery('.results-box').show();
+      jQuery('#ekonom').html(E);
+      jQuery('#ekonomgod').html(Egod);
+      jQuery('#okup').html(O);
+    }); //обработка калькулятора из левой колонки
+
+    $(".submit2").click(function () {
+      //obj = jQuery('select:visible[id^=ch] option:selected');
+      var obj = jQuery('select:visible[id^=ch] option:selected');
+      var kolvo = jQuery('#kolvo').val();
+      var rasx = jQuery(obj).attr('N');
+      var probeg = jQuery('#probeg').val();
+      var stoim = jQuery('#edtoplivo').val();
+
+      if (probeg > 0 && stoim > 0 && kolvo > 0 && rasx > 0) {
+        var p = jQuery(obj).attr('p');
+        var cost = jQuery(obj).attr('cost');
+        rasx = jQuery(obj).attr('N');
+        stoim = jQuery('#edtoplivo').val();
+        var S = kolvo * probeg * stoim * (rasx / 100);
+        E = S * p;
+        Egod = E * 12;
+
+        if (E) {
+          O = cost * kolvo / E;
+        } else {
+          O = 0;
+        }
+      } else if (jQuery('#motoch').val() > 0 && jQuery('#edtoplivo').val() > 0 && jQuery('#kolvo').val() > 0 && rasx > 0) {
+        obj = jQuery('select:visible[id^=ch] option:selected');
+        p = jQuery(obj).attr('p');
+        cost = jQuery(obj).attr('cost');
+        rasx = jQuery(obj).attr('N');
+        narabot = jQuery('#motoch').val();
+        stoim = jQuery('#edtoplivo').val();
+        S = kolvo * narabot * stoim * rasx;
+        E = S * p;
+        Egod = E * 12;
+
+        if (E) {
+          O = cost * kolvo / E;
+        } else {
+          O = 0;
+        }
+      } else {
+        alert('Выберите Вид и Категорию техники!');
+        return false;
+      }
+
+      var E = roundPlus(E, 2) + ' ';
+      E = E.replace(/(\d)(?=(\d\d\d)+([^\d]|$))/g, '$1 ');
+      var Egod = roundPlus(Egod, 2) + ' ';
+      Egod = Egod.replace(/(\d)(?=(\d\d\d)+([^\d]|$))/g, '$1 ');
+      var O = roundPlus(O, 1) + ' ';
+      O = O.replace(/(\d)(?=(\d\d\d)+([^\d]|$))/g, '$1 ');
+      jQuery('.results-box').show();
+      jQuery('#ekonom').html(E);
+      jQuery('#ekonomgod').html(Egod);
+      jQuery('#okup').html(O);
+    });
+  });
+});
+
+/***/ }),
+
+/***/ "./resources/assets/js/modules/get-watch.js":
+/*!**************************************************!*\
+  !*** ./resources/assets/js/modules/get-watch.js ***!
+  \**************************************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+window.onload = function () {
+  var strGET = window.location.search.replace('?', '');
+  var strGetParam = strGET.split('&');
+  var param = null;
+  strGetParam['direction'] = strGetParam[0].split('=');
+  strGetParam['params'] = strGetParam[1].split('=');
+  strGetParam['direction'] = strGetParam['direction'][1];
+  strGetParam['params'] = strGetParam['params'][1];
+
+  if (strGetParam['direction'] == 'cost') {
+    if (strGetParam['params'] == 'online-taho') {
+      param = 'Онлайн-тахограф';
+    }
+
+    if (strGetParam['params'] == 'kids') {
+      param = 'GPS для детей';
+    }
+
+    if (strGetParam['params'] == 'personal-tracker') {
+      param = 'Персональный трекер со встроенным GPS-маячком';
+    }
+
+    if (strGetParam['params'] == 'app') {
+      param = 'Приложение GPS-трекер на смартфон';
+    }
+
+    if (strGetParam['params'] == null) {
+      param = 'Уточнить у клиента';
+    }
+
+    clikPrice(param, 'monitoring');
+  }
+};
+
+/***/ }),
+
+/***/ "./resources/assets/js/modules/main-slider.js":
+/*!****************************************************!*\
+  !*** ./resources/assets/js/modules/main-slider.js ***!
+  \****************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/**
+ * Главный слайдер на главной странице
+ */
+/* harmony default export */ __webpack_exports__["default"] = (function () {
+  $(document).ready(function () {
+    $(".rotatorNav a:first").addClass("active");
+    var contentwidth = $(".rotContentHolder").width();
+    var totalcontent = $(".rotatorContent").size();
+    var allcontentwidth = contentwidth * totalcontent;
+    var $active;
+    var play;
+    $(".rotContentSlider").css({
+      'width': allcontentwidth
+    });
+
+    var rotate = function rotate() {
+      var slideid = $active.attr("rel") - 1;
+      var slidedistance = slideid * contentwidth;
+      $(".rotatorNav a").removeClass('active');
+      $active.addClass('active');
+      $(".rotContentSlider").animate({
+        left: -slidedistance
+      }, 500);
+    };
+
+    var rotation = function rotation() {
+      play = setInterval(function () {
+        $active = $('.rotatorNav a.active').next();
+
+        if ($active.length === 0) {
+          $active = $('.rotatorNav a:first');
+        }
+
+        rotate();
+      }, 8000);
+    };
+
+    rotation();
+    $(".rotatorNav a").click(function () {
+      $active = $(this);
+      clearInterval(play);
+      rotate();
+      rotation();
+      return false;
+    });
+  });
+});
+;
+
+/***/ }),
+
+/***/ "./resources/assets/js/onecol.js":
+/*!***************************************!*\
+  !*** ./resources/assets/js/onecol.js ***!
+  \***************************************/
+/*! no exports provided */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _modules_main_slider__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./modules/main-slider */ "./resources/assets/js/modules/main-slider.js");
+/* harmony import */ var _modules_calculator__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./modules/calculator */ "./resources/assets/js/modules/calculator.js");
+/* harmony import */ var _modules_get_watch__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./modules/get-watch */ "./resources/assets/js/modules/get-watch.js");
+/* harmony import */ var _modules_get_watch__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(_modules_get_watch__WEBPACK_IMPORTED_MODULE_2__);
+//#import '../sass/onecol.scss'
+
+
+ //инициализация слайдера на главной
+
+Object(_modules_main_slider__WEBPACK_IMPORTED_MODULE_0__["default"])(); //инициализация калькулятора
+
+Object(_modules_calculator__WEBPACK_IMPORTED_MODULE_1__["default"])(); //инициализация обработчки адресов
+
+_modules_get_watch__WEBPACK_IMPORTED_MODULE_2___default()();
+
+/***/ }),
+
+/***/ 2:
+/*!*********************************************!*\
+  !*** multi ./resources/assets/js/onecol.js ***!
+  \*********************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+module.exports = __webpack_require__(/*! C:\Users\Admin\Downloads\open_server_5_3_7_basic_full\OpenServer\domains\stavtrack.test\resources\assets\js\onecol.js */"./resources/assets/js/onecol.js");
+
+
+/***/ })
+
+/******/ });

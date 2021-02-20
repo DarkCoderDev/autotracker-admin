@@ -1,0 +1,321 @@
+let arr
+let timerId
+//функция таймера отправки
+function counter(){
+
+timerId = window.setTimeout(send_search,1000);
+}
+ function delaySend(){
+
+    arr = new Array()
+    var x = document.getElementById("search").value;
+     //делаем массив со всеме введёными подстроками
+    arr.push(x)
+    //отслеживаем изменения
+     //после каждого изменения сбрасываем таймер в функции counter()
+     x = {
+
+         set foo(value) {
+             clearTimeout(timerId);
+             counter()
+         }
+     };
+
+     x.foo = arr;
+
+}
+
+function send_search(){
+
+    //выбираем самую последнюю подстроку введённую пользователем и отправляем на сервер
+       // arr = arr.pop()
+    setTimeout(inputSend,0)
+}
+
+
+
+//отправка данных на сервер и получение результата
+async function inputSend() {
+
+
+
+    if(search.value.length >= 3){
+        //Если в поле больше 3 символов, то показать всплывашку и отправить данные на сервер
+        document.getElementById('output_search').style.display = "block";
+
+    $(document).ready(function()
+    {
+
+
+        $.ajax({
+
+            url: "/dynamic-search", //ссылка на контроллер API
+            dataType: "json", // Для использования JSON формата получаемых данных
+            method: "POST", // Что бы воспользоваться POST методом, меняем данную строку на POST
+            data: {"search": search.value},
+            beforeSend: function() {
+                //очищаем поиск после каждого нового символа
+                let element = document.getElementById("output_search");
+                while (element.firstChild) {
+                    element.removeChild(element.firstChild);
+                }
+                let wait_search = document.createElement("p");
+                //устанавливаем заголовок
+                wait_search.innerHTML = '<img id="preloader" src="https://i.gifer.com/VAyR.gif" style="margin: 1% auto; width: 5%">'
+
+                // присваиваем класс
+                wait_search.className = 'title_category'
+                // встраиваем в родительский блок
+                output_search.append(wait_search)
+
+            },
+            success: function(data) { // Выполнить когда данные пришли
+
+                //Разбиваем полученные данные на нужные свойства
+                    let news = data.news
+                    let pages = data.pages
+                    let equipments = data.equipment
+                    let reviews = data.reviews
+                    let taho = data.tahoWorks
+                    let kits = data.kits
+
+                    var title_color = '#878787' // цвет заголовков всплывашки
+ console.log(data)
+                    // обьявляем будущие коллекции
+                    var pack_equipments = new Array();
+                    var pack_news = new Array();
+                    var pack_pages = new Array();
+                    var pack_kits = new Array();
+                    var pack_reviews = new Array();
+                    var pack_taho = new Array();
+
+                    //очищаем поиск после каждого нового символа
+                    let element = document.getElementById("output_search");
+                    while (element.firstChild) {
+                        element.removeChild(element.firstChild);
+                    }
+
+
+                    // создаём коллекции. Это нужно для короткого перечня результатов в сплывающем окне
+                    pack_equipments = collection(pack_equipments, equipments, 12)
+                    pack_news = collection(pack_news, news, 5)
+                    pack_pages = collection(pack_pages, pages, 3)
+                    pack_kits = collection(pack_kits, kits, 5)
+                    pack_reviews = collection(pack_reviews, reviews, 5)
+                    pack_taho = collection(pack_taho, taho, 7)
+
+                // Если нечего не нашёл, то вывести сообщение
+                if (news.length == 0 && pages.length == 0 && equipments.length == 0 && reviews.length == 0 && taho.length == 0 && kits.length == 0) {
+
+                    //очищаем поиск
+                    let element = document.getElementById("output_search");
+                    while (element.firstChild) {
+                        element.removeChild(element.firstChild);
+                    }
+
+                    //устанавливаем заголовок
+                    let wait_search = document.createElement("p");
+                    wait_search.innerHTML = 'По запросу "' + search.value + '" нечего нет'
+                    // присваиваем класс
+                    wait_search.className = 'title_category'
+                    // встраиваем в родительский блок
+                    output_search.append(wait_search)
+
+                }else{ // если нашёл то продолжить описанный скрипт
+
+                    //Выводим товары если они есть
+                    if (equipments.length != 0) {
+
+
+                        let panel = document.createElement("div");
+                        panel.className = 'panel'
+                        // создаём заголовок
+                        let h2_equipments = document.createElement("p");
+                        //устанавливаем заголовок
+                        h2_equipments.innerHTML = '<img src="http://stavtrack.ru/img/relief_goods_box_icon_148329.png" width="30" style="margin-right: 10px">Оборудование:'
+                        // присваиваем класс
+                        h2_equipments.className = 'title_category'
+                        h2_equipments.style.color = title_color
+                        // встраиваем в родительский блок
+                        output_search.append(h2_equipments)
+                        //начинаем выводить список
+                        pack_equipments.forEach(function (item, i, arr) {
+                            //создаём позицию
+                            let section_equipments = document.createElement("div");
+                            //присваиваем класс
+                            section_equipments.className = 'search_object_equi_box'
+                            //формируем ссылку
+                            let modelName = "'" + item.type + "-" + item.model + "'"
+                            let url = '<img src="https://www.stavtrack.ru' + item.img + '" width="120" height="100"><div style="margin-top: 3px" class="button green" onclick="clikKupit(' + modelName + ')">Купить в 1 клик</div><a href="../../oborudovanie/' + item.url + '.html">' + item.model + '</a>'
+
+                            //устанавливаем ссылку
+                            section_equipments.innerHTML = url
+                            //встраиваем в секцию в блок результата
+                            panel.append(section_equipments)
+                            output_search.append(panel)
+
+
+                        });
+
+                        moreButton(equipments, 12, 'Equipment', search.value)
+
+                    }
+
+                    //Выводим новости если они есть
+                    if (news.length != 0) {
+                        let h2_news = document.createElement("span");
+                        h2_news.innerHTML = '<img src="http://stavtrack.ru/img/news-icon.png" width="30" style="margin-right: 10px">Новости:'
+                        h2_news.className = 'title_category'
+                        h2_news.style.color = title_color
+                        output_search.append(h2_news)
+                        pack_news.forEach(function (item, i, arr) {
+
+                            let section_news = document.createElement("p");
+                            section_news.className = i + ' search_object'
+                            let url = '<a href="../../news/' + item.url + '.html">' + item.name + '</a><hr>'
+                            section_news.innerHTML = url
+                            output_search.append(section_news)
+
+                        });
+
+                        moreButton(news, 5, 'News', search.value)
+                    }
+
+                    //Выводим страницы если они есть
+                    if (pages.length != 0) {
+                        let h2_pages = document.createElement("p");
+                        h2_pages.innerHTML = '<img src="http://stavtrack.ru/img/mbripages_99552.png" width="30" style="margin-right: 10px">Страницы:'
+                        h2_pages.className = 'title_category'
+                        h2_pages.style.color = title_color
+                        output_search.append(h2_pages)
+                        pack_pages.forEach(function (item, i, arr) {
+
+                            let section_pages = document.createElement("p");
+                            section_pages.className = i + ' search_object'
+                            let url = '<a href="../../' + item.url + '">' + item.h1 + '</a>'
+                            section_pages.innerHTML = url
+                            output_search.append(section_pages)
+
+                        });
+
+                        moreButton(pages, 3, 'Page', search.value)
+                    }
+
+                    //Выводим отзывы если они есть
+                    if (reviews.length != 0) {
+                        let h2_reviews = document.createElement("p");
+                        h2_reviews.innerHTML = '<img src="http://stavtrack.ru/img/gui_testimonial_icon_158371.png" width="30" style="margin-right: 10px">Отзыв о компании:'
+                        h2_reviews.className = 'title_category'
+                        h2_reviews.style.color = title_color
+                        output_search.append(h2_reviews)
+                        pack_reviews.forEach(function (item, i, arr) {
+
+
+                            if (item.otziv != null) {
+                                var otziv = ' ' + item.otziv.substring(150, -150)
+                            }
+
+
+                            let section_reviews = document.createElement("p");
+                            section_reviews.className = i + ' search_object'
+                            let url = '<a href="../../otzivy/' + item.id + '.html" style="margin-right: 5%">' + item.name + '</a>#' + item.id
+                            section_reviews.innerHTML = url
+                            output_search.append(section_reviews)
+
+                        });
+
+                        moreButton(reviews, 5, 'Review', search.value)
+                    }
+
+                    //проделанные работы
+                    if (taho.length != 0) {
+                        let h2_taho = document.createElement("p");
+                        h2_taho.innerHTML = '<img src="http://stavtrack.ru/img/taho.png" width="30" style="margin-right: 10px">Примеры проделанных работ:'
+                        h2_taho.className = 'title_category'
+                        h2_taho.style.color = title_color
+                        output_search.append(h2_taho)
+                        pack_taho.forEach(function (item, i, arr) {
+
+                            let section_taho = document.createElement("p");
+                            section_taho.className = i + ' search_object'
+                            let url = '<p style="margin-right: 1%">Установка тахографа на </p> <a href="../../tachograph/primer-ustanovki/' + item.url + '.html">' + item.name + '</a> #' + item.id
+                            section_taho.innerHTML = url
+                            output_search.append(section_taho)
+
+                        });
+                        moreButton(taho, 7, 'TahoWork', search.value)
+                    }
+
+                    //наборы
+                    if (kits.length != 0) {
+                        let h2_kits = document.createElement("p");
+                        h2_kits.innerHTML = '<img src="http://stavtrack.ru/img/first-aid-kit-3_icon-icons.com_58893.png" width="30" style="margin-right: 10px">Комплекты:'
+                        h2_kits.className = 'title_category'
+                        h2_kits.style.color = title_color
+                        output_search.append(h2_kits)
+                        pack_kits.forEach(function (item, i, arr) {
+
+                            let section_kits = document.createElement("p");
+                            section_kits.className = i + ' search_object'
+                            let url = '<a href="../../komplekty/' + item.url + '.html">' + item.h1 + '</a>'
+                            section_kits.innerHTML = url
+                            output_search.append(section_kits)
+
+                        });
+
+                        moreButton(kits, 5, 'Kit', search.value)
+
+                    }
+
+                }
+            }
+
+        });
+
+    });
+    }else{
+        //Если в поле пусто, то скрыть всплывашку
+        document.getElementById('output_search').style.display = "none";
+
+    }
+
+
+};
+
+// Функция которая создаёт коллекцию по указанным параметрам
+function collection(pack, mass, quantity) {
+
+    pack = new Array()
+    for (let i = 0; i < quantity; i++) {
+        pack.push(mass[i])
+    }
+    pack = pack.filter(element => element !== undefined);
+
+    return pack
+
+}
+
+
+//Функция кнопки "Показать ещё". Выводим кнопку ЕЩЁ если элементов больше чем нужно
+function moreButton(storage, quantity, model, query){
+
+    // принимаем переменную со всеми результатами (не коллекция),
+    // количество больше которого выводить кнопку,
+    // модель для поиска (в ней будет вестись поиск остальных ссылок),
+    // запрос пользователя
+
+
+    if (storage.length > quantity) {
+        let more = document.createElement("div");
+        more.innerHTML = '<a href="../../search/' + model + '/' + query + '" class="button orange" style="">Показать ещё</a>'
+        output_search.append(more)
+
+    }
+
+}
+
+
+
+
+
+
